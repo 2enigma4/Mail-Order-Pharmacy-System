@@ -1,0 +1,75 @@
+package com.cognizant.auth;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+
+import com.cognizant.auth.service.CustomerDetailsService;
+
+@EnableWebSecurity
+//@EnableWebMvc
+public class MySecurityConfig extends WebSecurityConfigurerAdapter {
+	/*private static final String[] AUTH_WHITELIST = {
+	        "/swagger-resources/**",
+	        "/swagger-ui.html",
+	        "/v2/api-docs",
+	        "/webjars/**"
+	};*/
+
+
+	@Autowired
+	CustomerDetailsService userDetailsService;
+	
+
+	@Override
+	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+
+		super.configure(auth);
+		auth.userDetailsService(userDetailsService);
+
+	}
+
+	@Override
+	protected void configure(HttpSecurity http) throws Exception {
+
+		//CSRF stands for Cross-Site Request Forgery
+		http.csrf().disable().authorizeRequests()
+					.antMatchers("/**")
+					.permitAll().antMatchers(HttpMethod.OPTIONS,"/**")
+					.permitAll()
+					.anyRequest()
+					.authenticated()
+					.and()
+					.exceptionHandling().and()
+					.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+	}
+
+	@Override
+	public void configure(WebSecurity web) throws Exception {
+		web.ignoring().antMatchers("/login", "/h2-console/**","/swagger-ui.html/");
+		//web.ignoring().antMatchers(AUTH_WHITELIST);
+	}
+
+	@Override
+	@Bean
+	public AuthenticationManager authenticationManagerBean() throws Exception {
+		return super.authenticationManagerBean();
+	}
+
+	@SuppressWarnings("deprecation")
+	@Bean
+	public PasswordEncoder passwordEncoder() {
+	    return NoOpPasswordEncoder.getInstance();
+	}
+}
+

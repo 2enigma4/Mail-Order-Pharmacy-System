@@ -1,0 +1,5 @@
+package com.cognizant.refill.exception;
+
+public class GlobalExceptionHandlerTest {
+
+}

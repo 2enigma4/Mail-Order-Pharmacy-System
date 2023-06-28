@@ -1,0 +1,5 @@
+package com.cognizant.drug.model;
+
+public class DrugLocationDetailsTest {
+
+}

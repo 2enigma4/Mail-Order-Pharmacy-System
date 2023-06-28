@@ -1,0 +1,5 @@
+package com.cognizant.drug.service;
+
+public class DrugServiceImplTest {
+
+}

@@ -1,0 +1,5 @@
+package com.cognizant.drug.controller;
+
+public class DrugControllerTest {
+
+}

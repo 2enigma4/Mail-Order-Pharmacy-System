@@ -1,0 +1,5 @@
+package com.cognizant.subscription.exception;
+
+public class GlobalExceptionHandlerTest {
+
+}

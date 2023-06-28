@@ -1,0 +1,5 @@
+package com.cognizant.refill.dao;
+
+public class DrugQuantityNotAvailableException {
+
+}

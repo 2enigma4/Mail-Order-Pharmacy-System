@@ -1,0 +1,5 @@
+package com.cognizant.auth.service;
+
+public class JwtUtilTest {
+
+}

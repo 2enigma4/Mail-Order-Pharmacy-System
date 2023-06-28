@@ -1,0 +1,52 @@
+package com.cognizant.auth.controller;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.when;
+
+import java.util.ArrayList;
+
+import org.junit.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import com.cognizant.auth.dao.UserDAO;
+import com.cognizant.auth.entity.AuthResponseEntity;
+import com.cognizant.auth.entity.UserData;
+import com.cognizant.auth.service.CustomerDetailsService;
+import com.cognizant.auth.service.JwtUtil;
+
+@SpringBootTest
+public class AuthControllerTest {
+	
+	@InjectMocks
+	AuthController authController;
+	
+	AuthResponseEntity authResponse;
+	
+	UserDetails userdetails;
+	
+	@Mock
+	JwtUtil jwtutil;
+	
+	@Mock
+	CustomerDetailsService custdetailservice;
+	
+	@Mock
+	UserDAO userservice;
+	
+	@Test
+	public void loginTest() {
+		UserData user = new UserData("grace","grace",null);
+		UserDetails loadUserByUsername = custdetailservice.loadUserByUsername("grace");
+		UserDetails value = new User(user.getUserid(),user.getUpassword(),new ArrayList<>());
+		when(custdetailservice.loadUserByUsername("grace")).thenReturn(value);
+		when(jwtutil.generateToken(loadUserByUsername)).thenReturn("token");
+		ResponseEntity<?> login = authController.login(user);
+		assertEquals(200, login.getStatusCodeValue());
+	}
+
+}

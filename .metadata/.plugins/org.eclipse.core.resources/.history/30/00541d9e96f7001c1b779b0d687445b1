@@ -1,0 +1,5 @@
+package com.cognizant.subscription.controller;
+
+public class SubscriptionController {
+
+}

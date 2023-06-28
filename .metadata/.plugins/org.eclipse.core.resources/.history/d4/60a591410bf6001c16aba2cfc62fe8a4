@@ -1,0 +1,5 @@
+insert into users (userid,upassword,uname) values ('aayushi','aayushi','aayushi');
+insert into users (userid,upassword,uname) values ('harsha','harsha','harsha');
+insert into users (userid,upassword,uname) values ('sanket','sanket','sanket');
+insert into users (userid,upassword,uname) values ('grace','grace','grace');
+
